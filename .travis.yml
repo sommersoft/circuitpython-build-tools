@@ -1,11 +1,24 @@
-sudo: false
-dist: trusty
+dist: xenial
 language: python
 python:
 - '3.6'
-script:
-- python3 -m circuitpython_build_tools.scripts.build_mpy_cross circuitpython_build_tools/data/
 
+matrix:
+  include:
+  - python: "3.6"
+    name: "Build mpy-cross"
+    script:
+      - python3 -m circuitpython_build_tools.scripts.build_mpy_cross circuitpython_build_tools/data/
+
+  - python: "3.6"
+    name: "Test Bundle Build"
+    #on:
+    #  type: pull
+    script:
+      - pip install -e .
+      - git clone https://github.com/adafruit/Adafruit_CircuitPython_Bundle.git
+      - cd Adafruit_CircuitPython_Bundle
+      - circuitpython-build-bundles --filename_prefix test-bundle --library_location libraries --library_depth 2
 
 deploy:
   provider: pypi
