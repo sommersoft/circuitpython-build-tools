@@ -8,8 +8,7 @@ jobs:
     - stage: "Tests"
       python: "3.6"
       name: "Test CircuitPython Bundle"
-      #on:
-      #  type: pull_request
+      #if: type = pull_request
       script:
         - echo "Building mpy-cross" && echo "travis_fold:start:mpy-cross"
         - python3 -u -m circuitpython_build_tools.scripts.build_mpy_cross circuitpython_build_tools/data/
@@ -22,8 +21,7 @@ jobs:
         - circuitpython-build-bundles --filename_prefix test-bundle --library_location libraries --library_depth 2
 
     - name: "Test Single Library Bundle"
-      #on:
-      #  type: pull_request
+      if: type = pull_request
       script:
         - echo "Building mpy-cross" && echo "travis_fold:start:mpy-cross"
         - python3 -u -m circuitpython_build_tools.scripts.build_mpy_cross circuitpython_build_tools/data/
@@ -35,7 +33,8 @@ jobs:
 
     - stage: deploy
       python: "3.6"
-      name: "Build mpy-cross"
+      name: "Deploy To PyPI"
+      if: tags
       script:
         - python3 -m circuitpython_build_tools.scripts.build_mpy_cross circuitpython_build_tools/data/
       deploy:
@@ -44,5 +43,5 @@ jobs:
         password:
           secure: tCjXwD8YeitG0HZLxW1D1QlVv4Xbj8mfRoqW0CM9ikPp3KY1PCz6Axj0PiOcyVwKdnxcUQ0EGRl16wEqwkObrmo9MboYrPuPqN00ULmyCQCRvJa2abIN6jDoLtBuf6bcze88t0XY2LdMOcj2Udv5Iijgf95zUgE+Z6BqT9Rgche78JEOeANJ7BlAJ6nRCA4whDdG7J9s7SmFtIjKWtMxig2J3X+Qy0bZ+Armtfp9/CRvjLJ8juDrcCBSysWLnAYLS4u8e/rbSTh8YwFeoeJ1pp9qSmME5NuwScY18QmfESNSqz8wVVXtAFKdoMOCoN+/CodTxp9aB0QsXX6yOYg74ahDIaci239wgnuUqxSaeLxeSwWkkVCXWdQVuP4vgq3GZwm2yNOQ1ZjfFbXF156yv0uSVw5nuaxv0YblQTinJtL4x9hwOdPDJio3b6UT3H1ue9l1qK0LT2OSkzDgn12WmTnTfRUH3BkU6onsYsdP33PK1YhepeQnfbT1P3ikrRHIwGYb7XqcjOtJh413kid6YezCXRqccl8kAxegnqX+cQG7K9ilpZtWaVYLu4RRBJ37H4vpuOb3SV686Y62sWPUXEbI3MR1OxU+RrRr/9DCH1EFXnlYT9LF986wXFJtWuSc+pbXuxY7qduai0hn5Pft6XH31exyiOwAHBIFeYebnVM=
         skip_cleanup: true
-      on:
-        tags: true
+        on:
+          tags: true
