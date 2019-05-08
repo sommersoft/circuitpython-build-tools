@@ -3,9 +3,11 @@ language: python
 python:
 - '3.6'
 
-deploy:
+before_deploy:
   script:
     - python3 -u -m circuitpython_build_tools.scripts.build_mpy_cross circuitpython_build_tools/data/
+
+deploy:
   provider: pypi
   user: "adafruit-travis"
   password:
@@ -14,10 +16,9 @@ deploy:
   on:
     tags: true
 
-jobs:
+matrix:
   include:
-    - stage: "Tests"
-      python: "3.6"
+    - python: "3.6"
       name: "Test CircuitPython Bundle"
       #if: type = pull_request
       script:
@@ -31,8 +32,9 @@ jobs:
         - cd Adafruit_CircuitPython_Bundle
         - circuitpython-build-bundles --filename_prefix test-bundle --library_location libraries --library_depth 2
 
-    - name: "Test Single Library Bundle"
-      if: type = pull_request
+    - python: "3.6"
+      name: "Test Single Library Bundle"
+      #if: type = pull_request
       script:
         - echo "Building mpy-cross" && echo "travis_fold:start:mpy-cross"
         - python3 -u -m circuitpython_build_tools.scripts.build_mpy_cross circuitpython_build_tools/data/
