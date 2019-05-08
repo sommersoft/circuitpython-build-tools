@@ -5,23 +5,24 @@ python:
 
 jobs:
   include:
-    - stage: "test-bundle"
+    - stage: "Tests"
       python: "3.6"
       name: "Test CircuitPython Bundle"
       #on:
       #  type: pull_request
       script:
+        - python3 -m circuitpython_build_tools.scripts.build_mpy_cross circuitpython_build_tools/data/
         - pip install -e .
         - git clone https://github.com/adafruit/Adafruit_CircuitPython_Bundle.git
         - cd Adafruit_CircuitPython_Bundle
+        - git submodule update --init --recursive
         - circuitpython-build-bundles --filename_prefix test-bundle --library_location libraries --library_depth 2
 
-    - stage: "test-single"
-      python: "3.6"
-      name: "Test Single Library Bundle"
+    - name: "Test Single Library Bundle"
       #on:
       #  type: pull_request
       script:
+        - python3 -m circuitpython_build_tools.scripts.build_mpy_cross circuitpython_build_tools/data/
         - pip install -e .
         - git clone https://github.com/adafruit/Adafruit_CircuitPython_FeatherWing.git
         - cd Adafruit_CircuitPython_FeatherWing
