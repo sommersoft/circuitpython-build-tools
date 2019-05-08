@@ -13,7 +13,7 @@ matrix:
   - python: "3.6"
     name: "Test Bundle Build"
     #on:
-    #  type: pull
+    #  type: pull_request
     script:
       - pip install -e .
       - git clone https://github.com/adafruit/Adafruit_CircuitPython_Bundle.git
