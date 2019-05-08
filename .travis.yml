@@ -21,7 +21,8 @@ jobs:
         - circuitpython-build-bundles --filename_prefix test-bundle --library_location libraries --library_depth 2
 
     - name: "Test Single Library Bundle"
-      if: type = pull_request
+      on:
+        type: pull_request
       script:
         - echo "Building mpy-cross" && echo "travis_fold:start:mpy-cross"
         - python3 -u -m circuitpython_build_tools.scripts.build_mpy_cross circuitpython_build_tools/data/
@@ -34,7 +35,8 @@ jobs:
     - stage: deploy
       python: "3.6"
       name: "Deploy To PyPI"
-      if: tags
+      on:
+        tags: true
       script:
         - python3 -m circuitpython_build_tools.scripts.build_mpy_cross circuitpython_build_tools/data/
       deploy:
