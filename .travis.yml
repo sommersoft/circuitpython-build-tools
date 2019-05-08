@@ -16,16 +16,16 @@ jobs:
         - cd Adafruit_CircuitPython_Bundle
         - circuitpython-build-bundles --filename_prefix test-bundle --library_location libraries --library_depth 2
 
-      - stage: "test-single"
-        python: "3.6"
-        name: "Test Single Library Bundle"
-        #on:
-        #  type: pull_request
-        script:
-          - pip install -e .
-          - git clone https://github.com/adafruit/Adafruit_CircuitPython_FeatherWing.git
-          - cd Adafruit_CircuitPython_FeatherWing
-          - circuitpython-build-bundles --filename_prefix test-single .
+    - stage: "test-single"
+      python: "3.6"
+      name: "Test Single Library Bundle"
+      #on:
+      #  type: pull_request
+      script:
+        - pip install -e .
+        - git clone https://github.com/adafruit/Adafruit_CircuitPython_FeatherWing.git
+        - cd Adafruit_CircuitPython_FeatherWing
+        - circuitpython-build-bundles --filename_prefix test-single .
 
     - stage: deploy
       python: "3.6"
