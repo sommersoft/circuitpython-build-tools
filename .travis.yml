@@ -5,11 +5,10 @@ python:
 
 jobs:
   include:
-    - stage: Test
+    - stage: Tests
       python: "3.6"
-      name: "Test CircuitPython Bundle"
       if: type = pull_request
-      script:
+    - script:
         - echo "Building mpy-cross" && echo "travis_fold:start:mpy-cross"
         - python3 -u -m circuitpython_build_tools.scripts.build_mpy_cross circuitpython_build_tools/data/
         - echo "travis_fold:end:mpy-cross"
@@ -19,11 +18,9 @@ jobs:
         - echo "travis_fold:end:clone"
         - cd Adafruit_CircuitPython_Bundle
         - circuitpython-build-bundles --filename_prefix test-bundle --library_location libraries --library_depth 2
+      name: "Test CircuitPython Bundle"
 
-    - python: "3.6"
-      name: "Test Single Library Bundle"
-      if: type = pull_request
-      script:
+    - script:
         - echo "Building mpy-cross" && echo "travis_fold:start:mpy-cross"
         - python3 -u -m circuitpython_build_tools.scripts.build_mpy_cross circuitpython_build_tools/data/
         - echo "travis_fold:end:mpy-cross"
@@ -31,8 +28,11 @@ jobs:
         - git clone https://github.com/adafruit/Adafruit_CircuitPython_FeatherWing.git
         - cd Adafruit_CircuitPython_FeatherWing
         - circuitpython-build-bundles --filename_prefix test-single --library_location .
+      name: "Test CircuitPython Bundle"
 
     - stage: deploy
+      script:
+        - python3 -u -m circuitpython_build_tools.scripts.build_mpy_cross circuitpython_build_tools/data/
       provider: pypi
       user: "adafruit-travis"
       password:
@@ -40,5 +40,3 @@ jobs:
       skip_cleanup: true
       on:
         tags: true
-      script:
-        - python3 -u -m circuitpython_build_tools.scripts.build_mpy_cross circuitpython_build_tools/data/
