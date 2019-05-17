@@ -7,7 +7,6 @@ jobs:
   include:
     - stage: Tests
       python: "3.6"
-      if: type = pull_request
     - script:
         - echo "Building mpy-cross" && echo "travis_fold:start:mpy-cross"
         - python3 -u -m circuitpython_build_tools.scripts.build_mpy_cross circuitpython_build_tools/data/
@@ -19,6 +18,7 @@ jobs:
         - cd Adafruit_CircuitPython_Bundle
         - circuitpython-build-bundles --filename_prefix test-bundle --library_location libraries --library_depth 2
       name: "Test CircuitPython Bundle"
+      if: type = pull_request
 
     - script:
         - echo "Building mpy-cross" && echo "travis_fold:start:mpy-cross"
@@ -29,6 +29,7 @@ jobs:
         - cd Adafruit_CircuitPython_FeatherWing
         - circuitpython-build-bundles --filename_prefix test-single --library_location .
       name: "Test CircuitPython Bundle"
+      if: type = pull_request
 
     - stage: deploy
       script:
