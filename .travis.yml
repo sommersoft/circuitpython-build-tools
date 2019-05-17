@@ -6,9 +6,10 @@ python:
 before_deploy:
   - python3 -u -m circuitpython_build_tools.scripts.build_mpy_cross circuitpython_build_tools/data/
 
-matrix:
+jobs:
   include:
-    - python: "3.6"
+    - stage: Test
+      python: "3.6"
       name: "Test CircuitPython Bundle"
       if: type = pull_request
       script:
@@ -34,7 +35,7 @@ matrix:
         - cd Adafruit_CircuitPython_FeatherWing
         - circuitpython-build-bundles --filename_prefix test-single --library_location .
 
-    - deploy:
+    - stage: deploy
       provider: pypi
       user: "adafruit-travis"
       password:
