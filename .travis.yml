@@ -6,8 +6,8 @@ python:
 stages:
   - name: Tests
     if: type = pull_request
-  - deploy
-    if : tag IS present
+  - name: deploy
+    if: tag IS present
 
 jobs:
   include:
