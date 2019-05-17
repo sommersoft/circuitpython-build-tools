@@ -39,6 +39,5 @@ matrix:
       skip_cleanup: true
       on:
         tags: true
-      before_deploy:
-        script:
-          - python3 -u -m circuitpython_build_tools.scripts.build_mpy_cross circuitpython_build_tools/data/
+      script:
+        - python3 -u -m circuitpython_build_tools.scripts.build_mpy_cross circuitpython_build_tools/data/
