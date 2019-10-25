@@ -84,7 +84,7 @@ def mpy_cross(mpy_cross_filename, circuitpython_tag, quiet=False):
     os.chdir("../mpy-cross")
     make = subprocess.run("make clean && make", shell=True)
     os.chdir(current_dir)
-
+    print("mpy_cross shutil.copy current_dir:", os.getcwd())
     shutil.copy("build_deps/circuitpython/mpy-cross/mpy-cross", mpy_cross_filename)
 
     if make.returncode != 0:
